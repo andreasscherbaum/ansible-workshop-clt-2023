@@ -56,6 +56,12 @@ Das Verzeichnis [uebungen](./uebungen/) enthält die Übungen die wir während d
 
 Ihr solltet also mit den anderen Übungen vertraut sein bzw. grundlegende Ansible Kentnisse mitbringen.
 
+### Grundzustand
+
+Die Übungen [01-ssh](uebungen/01-ssh) und [02-ping](uebungen/02-ping) sind zum Testen gedacht.
+
+Die Übung [03-build](uebungen/03-build) erstellt den Zustand wie zum Abschluss der vorherigen Workshops.
+
 
 ## Konfiguration
 
