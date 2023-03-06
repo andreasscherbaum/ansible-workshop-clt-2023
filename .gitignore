@@ -1,0 +1,9 @@
+inventory
+key.pem
+ansible.cfg
+db-account-test.txt
+**/site.retry
+connect-db.sh
+connect-web.sh
+mailsent.txt
+region.txt

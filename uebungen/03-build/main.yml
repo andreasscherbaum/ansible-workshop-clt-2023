@@ -1,0 +1,266 @@
+---
+
+- name: Set variables
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Set variables
+      set_fact:
+        postgresql_repository_apt: "https://apt.postgresql.org/pub/repos/apt/"
+        postgresql_repository_key: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+        postgresql_version: "15"
+
+
+# Uebung 04
+- name: Set hostnames
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Set hostname
+      hostname:
+        name: "{{ inventory_hostname }}"
+
+
+- name: Install NTP
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Install NTP package
+      package:
+        name: ntp
+        state: latest
+
+    - name: Ensure ntp is running
+      service:
+        name: ntp
+        state: started
+
+
+# Uebung 06
+- name: Regeln auf allen Webserver Maschinen durchsetzen
+  hosts: webservers
+  become: true
+  tasks:
+
+    - name: Install Apache2 + PHP packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - apache2
+        - apache2-utils
+        - libapache2-mod-php
+        - php
+        - php-dev
+        - php-pgsql
+        - php-pear
+        #- php-gettext
+        - postgresql-client-common
+        - postgresql-client
+        - acl # required for using 'become'
+
+    - name: Ensure Apache2 is running
+      service:
+        name: apache2
+        state: started
+
+
+- name: Regeln auf allen Datenbank Maschinen durchsetzen
+  hosts: dbservers
+  become: true
+  tasks:
+
+    - name: Add apt-key for PostgreSQL repository
+      apt_key:
+        url: "{{ postgresql_repository_key }}"
+        state: present
+
+
+    - name: Read lsb_release version
+      shell: lsb_release -sc
+      register: lsb_release
+      changed_when: false
+
+
+    #- debug: msg="deb {{ postgresql_repository_apt }} {{ lsb_release.stdout }}-pgdg main"
+    - name: PostgreSQL APT repository
+      apt_repository:
+        repo: "deb {{ postgresql_repository_apt }} {{ lsb_release.stdout }}-pgdg main"
+        state: present
+        update_cache: yes
+        # the "filename" requires Ansible 2.1 or later
+        filename: postgresql-repository
+
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+      changed_when: false
+
+
+    - name: Install PostgreSQL packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - "postgresql-{{ postgresql_version }}"
+        - "postgresql-client-{{ postgresql_version }}"
+        - "postgresql-contrib-{{ postgresql_version }}"
+        - python3-psycopg2
+        - acl # required for using 'become'
+
+
+    - name: Ensure PostgreSQL is running
+      service:
+        name: postgresql
+        state: started
+
+
+# Uebung 07
+- name: Regeln auf allen Webserver Maschinen durchsetzen
+  hosts: webservers
+  become: true
+  tasks:
+
+    # only works on Debian based systems
+    - name: PHP alternatives path
+      stat:
+        path: /etc/alternatives/php
+        follow: no
+        get_checksum: no
+        get_mime: no
+      register: php_version
+      changed_when: false
+
+
+    - name: PHP version number
+      set_fact:
+        php_version_number: "{{ php_version.stat.lnk_target | realpath | basename | regex_replace('php', '') }}"
+
+
+    - name: Configure php.ini
+      lineinfile:
+        # hardcoded version number
+        dest: "/etc/php/{{ php_version_number }}/apache2/php.ini"
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { regexp: '^short_open_tag', line: 'short_open_tag = On', state: present }
+        - { regexp: '^error_reporting', line: 'error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_STRICT', state: present }
+        - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 64M', state: present }
+        - { regexp: '^allow_url_fopen', line: 'allow_url_fopen = Off', state: present }
+        - { regexp: '^;?date.timezone', line: 'date.timezone = "Europe/Berlin"', state: present }
+      notify:
+        - restart apache
+
+
+  handlers:
+
+    - name: restart apache
+      service:
+        name: apache2
+        state: restarted
+
+
+- name: Regeln auf allen Datenbank Maschinen durchsetzen
+  hosts: dbservers
+  become: true
+  tasks:
+
+    - name: Configure postgresql.conf
+      lineinfile:
+        dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { regexp: '^listen_addresses', line: "listen_addresses = '*'", state: present }
+      notify:
+        - restart postgresql
+
+
+    - name: Configure pg_hba.conf
+      lineinfile:
+        dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+        line: "{{ item.line }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { line: "host  test  test  0/0  md5", state: present }
+      notify:
+        - restart postgresql
+
+
+    - name: user "test"
+      postgresql_user:
+        name: "test"
+        password: "{{ lookup('password', '{{ inventory_dir }}/db-account-test.txt chars=ascii_letters,digits length=12') }}"
+        role_attr_flags: NOCREATEDB,NOSUPERUSER,NOCREATEROLE,NOREPLICATION
+        state: present
+      become: yes
+      become_user: postgres
+
+
+    - name: database "test"
+      postgresql_db:
+        name: "test"
+        owner: "test"
+        encoding: UTF-8
+        lc_collate: en_US.UTF-8
+        lc_ctype: en_US.UTF-8
+        template: template0
+        state: present
+      become: yes
+      become_user: postgres
+
+
+  handlers:
+
+    - name: restart postgresql
+      service:
+        name: postgresql
+        state: restarted
+
+
+# Uebung 09
+- name: Installieren mehrerer PHP-Anwendungen
+  hosts: webservers
+  become: true
+  tasks:
+
+    - name: Copy application
+      template:
+        src: "{{ playbook_dir }}/templates/{{ item }}"
+        dest: /var/www/html
+      with_items:
+        - phpinfo.php
+        - database.php
+        - index.php
+
+
+# Uebung 10
+- name: Hosts auf allen Maschinen verteilen
+  hosts: all
+  become: true
+  tasks:
+
+  - name: Erzeuge hosts-Eintrag pro host
+    lineinfile:
+      dest: /etc/hosts
+      regexp: '.*{{ item }}$'
+      line: "{{ hostvars[item].ansible_default_ipv4.address }} {{item}}"
+      state: present
+    with_items: "{{ groups['all'] }}"
+
+
+# Uebung 09 (again)
+- name: Installieren mehrerer PHP-Anwendungen
+  hosts: webservers
+  become: true
+  tasks:
+
+    - debug:
+        msg: "Die URL lautet: http://{{ ansible_host }}/index.php"

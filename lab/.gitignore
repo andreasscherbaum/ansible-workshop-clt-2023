@@ -1,0 +1,11 @@
+vault_pass.txt
+vault_pass-ads.txt
+vault_pass-work.txt
+awscreds-ads.yml
+awscreds-work.yml
+attendee_*
+facts.json
+accounts/*
+configuration.yml
+attendees.yml
+awscreds.yml

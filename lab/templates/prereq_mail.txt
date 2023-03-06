@@ -1,0 +1,24 @@
+
+Hallo,
+
+herzlich willkommen zum Workshop "Server mit Ansible verwalten" beim CLT {{ year }}!
+
+Um zu Beginn des Workshops startklar zu sein und sofort loslegen zu können, bitten wir dich, folgende Dinge auf deinem Laptop vorzubereiten:
+
+  - Stelle bitte sicher, dass folgende Tools installiert sind:
+    - git (z.B. Ubuntu: sudo apt-get install git)
+      - Test: git --version
+    - ssh (z.B. Ubuntu: sudo apt-get install openssh-client)
+      - Test: ssh -V
+    - Ansible in der Version {{ ansible_min_version }} oder neuer (z.B. Ubuntu: sudo apt-get install ansible)
+      - Test: ansible --version
+  - Checke das git-Repository für den Workshop aus:
+    - git clone https://github.com/andreasscherbaum/ansible-workshop-clt-{{ year }}
+
+Unmittelbar vor dem Workshop senden wir dir eine zweite Email mit weiteren Hinweisen sowie Zugangsdaten, die du während des Workshops brauchen wirst.
+
+Der Workshop findet am {{ workshop_weekday }}, dem {{ workshop_date }}, um {{ workshop_time }} Uhr im Raum {{ workshop_room }} statt (siehe auch https://chemnitzer.linux-tage.de/{{ year }}/de/programm/beitrag/{{ workshop_id }}).
+
+Für Rückfragen wendest Du dich bitte an {{ contact_email }} oder sprichst einen von uns auf dem CLT einfach an.
+
+Viel Spaß beim Workshop wünschen Dir Jens & Andreas!
