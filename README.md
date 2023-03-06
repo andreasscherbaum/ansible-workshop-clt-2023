@@ -4,11 +4,11 @@ Advanced Ansible Workshop für die Chemnitzer Linux-Tage 2023
 
 ## Voraussetzungen
 
-Ihr braucht grundlegende Ansible Kentnisse. Dieser Workshop ist nicht für absolute Anfänger geeignet.
+Ihr braucht grundlegende Ansible-Kentnisse. Dieser Workshop ist nicht für absolute Anfänger geeignet.
 
-Ihr braucht mindestens ein Ansible Version 2.12, ältere Ansible Versionen werden möglicherweise nicht funktionieren.
+Weiterhin braucht ihr mindestens ein Ansible Version 2.12, ältere Ansible Versionen werden möglicherweise nicht funktionieren.
 
-Falls notwendig könnt ein ein neueres Ansible in einem [Python venv](https://docs.python.org/3/library/venv.html) installieren:
+Falls notwendig, könnt ihr ein neueres Ansible in einem [Python venv](https://docs.python.org/3/library/venv.html) installieren:
 
 ```
 virtualenv --python=python3 ansible-new
@@ -34,7 +34,7 @@ ansible [core 2.13.8]
 
 Für die Dauer des Workshops werden wir euch zwei virtuelle Maschinen bereitstellen. Die Zugangsdaten erhaltet ihr im Laufe des Workshops.
 
-Dies stellt sicher dass jeder mit der gleichen Umgebung arbeitet. Niemand muss erst irgendeinen Hypervisor lokal installieren und virtuelle Maschinen hochfahren.
+Dies stellt sicher, dass jeder mit der gleichen Umgebung arbeitet. Niemand muss erst irgendeinen Hypervisor lokal installieren und virtuelle Maschinen hochfahren.
 
 Der Zugang zu den virtuellen Maschinen ist auf die Dauer des Workshops begrenzt, die Zugangsdaten werden danach ungültig. Allerdings könnt ihr die Übungen natürlich auch daheim auf anderen Systemen ausprobieren.
 
@@ -48,13 +48,15 @@ export ANSIBLE_CONFIG=$(pwd)
 
 ## Übungen
 
-Das Verzeichnis [uebungen](./uebungen/) enthält die Übungen die wir während des Workshops durchführen werden. Diese Übungen bauen auf dem vorherigen Ansible Workshop auf, ihr könnt diesen hier finden:
+Das Verzeichnis [uebungen](./uebungen/) enthält die Übungen, die wir während des
+Workshops durchführen werden. Diese Übungen bauen auf den vorherigen Ansible-Workshops auf:
 
+* [Ansible Workshop für die Chemnitzer Linux-Tage 2021](https://github.com/andreasscherbaum/ansible-workshop-clt-2021)
 * [Ansible Workshop für die Chemnitzer Linux-Tage 2020](https://github.com/andreasscherbaum/ansible-workshop-clt-2020)
 * [Ansible Workshop für die Chemnitzer Linux-Tage 2019](https://github.com/andreasscherbaum/ansible-workshop-clt-2019)
 * [Ansible Workshop für die Chemnitzer Linux-Tage 2018](https://github.com/andreasscherbaum/ansible-workshop-clt-2018)
 
-Ihr solltet also mit den anderen Übungen vertraut sein bzw. grundlegende Ansible Kentnisse mitbringen.
+Ihr solltet also mit den anderen Übungen vertraut sein bzw. grundlegende Ansible-Kentnisse mitbringen.
 
 ### Grundzustand
 
@@ -67,7 +69,7 @@ Die Übung [03-build](uebungen/03-build) erstellt den Zustand wie zum Abschluss 
 
 ### AWS Zugangsdaten
 
-Dieses Repository benötigt AWS Zugangsdaten um virtuelle Maschinen zu erstellen.
+Dieses Repository benötigt AWS-Zugangsdaten, um virtuelle Maschinen zu erstellen.
 
 Erstelle eine Datei _lab/awscreds.yml_ mit dem folgenden Befehl:
 
@@ -77,9 +79,9 @@ ansible-vault create awscreds.yml
 
 Eine Beispieldatei ist verfügbar: _lab/awscreds-example.yml_ (diese Beispieldatei beinhaltet keine Zugangsdaten, ersetze die Platzhalter mit deinen eigenen Daten).
 
-Die Datei die du mit _ansible-vault_ erstellst ist verschlüsselt. Vergiss das Passwort nicht!
+Die Datei, die du mit _ansible-vault_ erstellst, ist verschlüsselt. Vergiss das Passwort nicht!
 
-Die Playbooks lesen das Passwort von der Datei _vault_pass.txt_ im Hauptverzeichnis dieses Repository. Stelle sicher dass diese Datei nicht geteilt wird (zum Beispiel wenn das Repository kopiert wird). Diese Datei ist bereits zu _.gitignore_ hinzugefügt und wird nicht in das Repository eingecheckt.
+Die Playbooks lesen das Passwort von der Datei _vault_pass.txt_ im Hauptverzeichnis dieses Repositorys. Stelle sicher, dass diese Datei nicht geteilt wird (zum Beispiel, wenn das Repository kopiert wird). Diese Datei ist bereits zu _.gitignore_ hinzugefügt und wird nicht in das Repository eingecheckt.
 
 ```
 touch vault_pass.txt
@@ -94,7 +96,7 @@ Eine Beispielkonfiguration ist in _configuration-example.yml_ verfügbar. Kopier
 
 Ein Eintrag muss zwingend geändert werden: _infra_name_.
 
-Dieser Eintrag wird als Tag verwendet um alle Infrastruktur zu identifizieren die dieses Playbook erzeugt. Wenn "make destroy" ausgeführt wird, werden sämtliche AWS Ressourcen gelöscht die dieses Tag verwenden. Stelle sicher dass du einen eindeutigen Bezeichner verwendest.
+Dieser Eintrag wird als Tag verwendet, um alle Infrastruktur zu identifizieren, die dieses Playbook erzeugt. Wenn "make destroy" ausgeführt wird, werden sämtliche AWS-Ressourcen gelöscht, die dieses Tag verwenden. Stelle sicher, dass du einen eindeutigen Bezeichner verwendest.
 
 
 ### Server Konfiguration
@@ -116,13 +118,13 @@ Führe alle erforderlichen Konfigurationsschritte aus (siehe oben) und führe fo
 make deploy
 ```
 
-Dadurch werden die in _servers.yml_ konfigurierten Instanzen erstellt, Unterverzeichnisse mit Instanzdetails erstellt (basierend auf _server_prefix_ und _servers_ + _name_). Jedes Unterverzeichnis enthält Shell-Skripte, die verwendet werden können, um sich direkt mit jedem Server zu verbinden. Dies erleichtert das Debuggen. Ebenfalls enthalten ist eine _ansible.cfg_ und eine Inventory Datei.
+Dadurch werden die in _servers.yml_ konfigurierten Instanzen erstellt, Unterverzeichnisse mit Instanzdetails erstellt (basierend auf _server_prefix_ und _servers_ + _name_). Jedes Unterverzeichnis enthält Shell-Skripte, die verwendet werden können, um sich direkt mit jedem Server zu verbinden. Dies erleichtert das Debuggen. Ebenfalls enthalten ist eine _ansible.cfg_ und eine Inventory-Datei.
 
 Wenn dem Mix mehr Infrastruktur hinzugefügt werden soll, kann _servers.yml_ mit weiteren Einträgen versehen werden. Danach das Playbook erneut ausführen. Bereits bestehende Instanzen werden nicht angetastet (idempotent).
 
 ### Instanzen löschen
 
-Folgender Befehl löscht alle Instanzen und weitere Infrastruktur die mit dem _infra_name_ Tag versehen ist:
+Folgender Befehl löscht alle Instanzen und weitere Infrastruktur, die mit dem _infra_name_ Tag versehen ist:
 
 ```
 make destroy
