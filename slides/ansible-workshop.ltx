@@ -253,4 +253,106 @@ verwaltet über Ansible
   \end{quote}
   Damit könnt ihr eine kleine Infoseite sehen.
 \end{frame}
+
+
+\section{Inventory und Variablen}
+
+\begin{frame}[fragile]
+  \frametitle{Inventory}
+  Das Inventory sammelt die diversen Systeme und besteht aus einer oder mehreren
+  Dateien:
+  \begin{exampleblock}{hosts}
+    \texttt{192.168.23.42}\\
+    \texttt{clt.20.example.org}
+
+    \texttt{[webservers]}\\
+    \texttt{192.168.17.189}\\
+    \texttt{clt.20.example.org}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile,t]
+  \frametitle{Inventory}
+  \framesubtitle{Format}
+  Das Inventory kann im INI"=Format vorliegen \only<3>{oder als YAML"=Datei:}
+  \only<2>{  \begin{exampleblock}{hosts als INI}
+    \texttt{192.168.23.42}\\
+    \texttt{clt.20.example.org}
+
+    \texttt{[webservers]}\\
+    \texttt{192.168.17.189}\\
+    \texttt{clt.20.example.org}
+  \end{exampleblock}}
+
+\begin{onlyenv}<3>
+  \begin{exampleblock}{hosts als YAML}
+\begin{lstlisting}
+all:
+  hosts:
+    192.168.23.42
+    clt.20.example.org
+  children:
+    webservers:
+      clt.20.example.org:
+\end{lstlisting}
+  \end{exampleblock}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Standardgruppen}
+  Ansible legt standardmäßig zwei Gruppen an:
+  \begin{itemize}
+  \item<+-> \texttt{all}
+  \item<+-> \texttt{ungrouped}
+  \end{itemize}\pause{}
+
+  Weitere Gruppen könnt ihr selbst festlegen und die Hosts dort oder in
+  Kindgruppen einsortieren.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Dynamische Inventorys}
+  Die Inventorys sind nicht unbedingt statisch. Neue Host kommen hinzu, alte
+  werden aus dem System genommen. Je nach Umgebung kann dies sehr dynamisch
+  passieren.\pause{}
+
+  Ansible setzt hier mittels Inventoryplugins oder -skripten an:
+  \texttt{ansible-doc -t inventory -l}.
+
+  Damit werden die Inventorys dynamisch aufgebaut und mit Ansible benutzt.
+\end{frame}
+
+\subsection{Hostvariablen}
+
+\begin{frame}[fragile]
+  \frametitle{Hostvariablen}
+
+  Im Inventory können pro Host Variablen festgelegt werden. Diese können später
+  wieder im Playbook verwendet werden.
+    \begin{exampleblock}{hosts}
+    \texttt{[webservers]}\\
+    \texttt{192.168.17.189 http\_port=80}\\
+    \texttt{clt.20.example.org http\_port=8080}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Gruppenvariablen}
+  Die Variablen können auch für Gruppen verwendet werden.
+  \begin{exampleblock}{hosts}
+    \texttt{[webservers]}\\
+    \texttt{192.168.17.189}\\
+    \texttt{clt.20.example.org}\\
+    \texttt{[webservers:vars]}\\
+    \texttt{ansible\_user=foo}\\
+    \texttt{proxy=bar:3128}
+  \end{exampleblock}
+\end{frame}
+
+
+
+
 \end{document}
+
+
