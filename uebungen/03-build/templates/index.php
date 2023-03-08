@@ -9,8 +9,8 @@
     <h1>Ansible Workshop f&uuml;r die Chemnitzer Linux-Tage 2023</h1>
     <p>
         <ul>
-            <li><a href="database.php">Datenbank Test</li>
-            <li><a href="phpinfo.php">PHP Info</li>
+            <li><a href="database.php">Datenbank Test</a></li>
+            <li><a href="phpinfo.php">PHP Info</a></li>
         </ul>
     </p>
 </body>
