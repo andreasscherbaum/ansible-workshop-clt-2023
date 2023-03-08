@@ -7,3 +7,4 @@ connect-db.sh
 connect-web.sh
 mailsent.txt
 region.txt
+group_vars/*

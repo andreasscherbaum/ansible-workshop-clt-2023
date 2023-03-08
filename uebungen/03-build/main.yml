@@ -229,11 +229,13 @@
 - name: Installieren mehrerer PHP-Anwendungen
   hosts: webservers
   become: true
+  vars:
+    uebungnr: "09 (build)"
   tasks:
 
     - name: Copy application
       template:
-        src: "{{ playbook_dir }}/templates/{{ item }}"
+        src: "{{ playbook_dir }}/../templates/{{ item }}"
         dest: /var/www/html
       with_items:
         - phpinfo.php

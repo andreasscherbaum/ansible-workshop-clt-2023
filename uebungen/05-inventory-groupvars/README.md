@@ -1,0 +1,27 @@
+# Übung 05
+
+Group Vars
+
+## Details
+
+In dieser Übung erstellen wir Gruppen Variablen (Group Vars).
+
+Dazu definieren wir Variablen im Inventory die für Gruppen gültig sind, und aktualisieren dann die Webanwendung.
+Dazu wird eine separate Datei mit dem Namen der Gruppe verwendet.
+
+## Vorbereitung
+
+Für diese Übungen befindest du dich im Hauptverzeichnis des Repositories.
+
+Zusätzlich muss das Verzeichnis `group_vars` angelegt und die Datei `` dorthin kopiert werden:
+
+```
+mkdir group_vars
+cp -a uebungen/05-inventory-groupvars/webservers.yml group_vars/webservers.yml
+```
+
+## Durchführung
+
+```
+ansible-playbook uebungen/05-inventory-groupvars/main.yml
+```
