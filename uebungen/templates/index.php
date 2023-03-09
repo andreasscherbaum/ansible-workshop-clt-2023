@@ -12,6 +12,7 @@
             <li><a href="database.php">Datenbank Test</a></li>
             <li><a href="phpinfo.php">PHP Info</a></li>
             <li><a href="roles-example.php">Beispiel f&uuml;r Roles</a></li>
+            <li><a href="jinja2-example.php">Beispiel f&uuml;r Jinja2 Templates</a></li>
         </ul>
     </p>
     Finden statt in: {{ location }}

@@ -1,0 +1,29 @@
+---
+
+- name: Installieren einer PHP-Anwendung
+  hosts: webservers
+  become: true
+  vars:
+    uebungnr: "10"
+    list_example:
+      - List entry 1
+      - List entry 2
+      - List entry 3
+    dict_example:
+      {
+        "entry1": "Dict Entry 1",
+        "entry2": "Dict Entry 2",
+        "entry3": "Dict Entry 3",
+      }
+  tasks:
+
+    - name: Copy application
+      template:
+        src: "{{ item }}"
+        dest: /var/www/html
+      with_items:
+        - jinja2-example.php
+
+
+    - debug:
+        msg: "Die URL lautet: http://{{ ansible_host }}/jinja2-example.php"
