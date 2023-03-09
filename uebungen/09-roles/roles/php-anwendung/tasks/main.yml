@@ -1,0 +1,10 @@
+---
+
+- name: Copy application
+  template:
+    src: "{{ item }}"
+    dest: /var/www/html
+  with_items:
+    - roles-example.php
+  notify:
+    - restart apache

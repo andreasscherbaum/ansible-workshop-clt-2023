@@ -1,0 +1,9 @@
+---
+
+# handlers are run in the order specified in this file
+# if you need a handler to run later, place it at the end
+
+- name: restart apache
+  service:
+    name: apache2
+    state: restarted

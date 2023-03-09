@@ -1,0 +1,6 @@
+---
+
+# role defaults: level 2
+# https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence
+
+application_name: "PHP Application 09 mit Defaults"

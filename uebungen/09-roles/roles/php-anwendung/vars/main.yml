@@ -1,0 +1,6 @@
+---
+
+# role vars: level 15
+# https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence
+
+application_name: "PHP Application 09 mit Vars"

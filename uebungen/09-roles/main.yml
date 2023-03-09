@@ -1,0 +1,13 @@
+---
+
+- name: Installieren einer PHP-Anwendung mittels einer Role
+  hosts: webservers
+  become: true
+  vars:
+    uebungnr: "09"
+  roles:
+    - php-anwendung
+  tasks:
+
+    - debug:
+        msg: "Die URL lautet: http://{{ ansible_host }}/example.php"
