@@ -17,6 +17,9 @@
     <p>
         &Uuml;bung {{ uebungnr }}
     </p>
+    <p>
+        Workshop: <a href="https://chemnitzer.linux-tage.de/{{ workshop_year }}/de/programm/beitrag/{{ workshop_id }}">{{ workshop_name }}</a>
+    </p>
 </body>
 
 </html>

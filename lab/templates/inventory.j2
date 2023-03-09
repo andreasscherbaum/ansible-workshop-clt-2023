@@ -7,3 +7,13 @@ host1 ansible_host={{ item.tagged_instances[0].public_ip }}
 
 [webservers]
 host2 ansible_host={{ item.tagged_instances[1].public_ip }}
+
+[all:vars]
+workshop_year="{{ year }}"
+workshop_weekday="{{ workshop_weekday }}"
+workshop_date="{{ workshop_date }}"
+workshop_time="{{ workshop_time }}"
+workshop_room="{{ workshop_room }}"
+workshop_id="{{ workshop_id }}"
+workshop_name="{{ workshop_name }}"
+ansible_min_version="{{ ansible_min_version }}"
