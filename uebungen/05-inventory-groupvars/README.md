@@ -15,7 +15,7 @@ In der [Variable Precedence](https://docs.ansible.com/ansible/latest/playbook_gu
 
 Für diese Übungen befindest du dich im Hauptverzeichnis des Repositories.
 
-Zusätzlich muss das Verzeichnis `group_vars` angelegt und die Datei `` dorthin kopiert werden:
+Zusätzlich muss das Verzeichnis `group_vars` angelegt und die Datei `webservers.yml` dorthin kopiert werden:
 
 ```
 mkdir group_vars
