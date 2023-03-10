@@ -4,9 +4,9 @@ Roles
 
 ## Details
 
-In dieser Übung nutzen wir eine recht umfangreiche [Role](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html).
+In dieser Übung nutzen wir eine recht umfangreiche [Rolle](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html).
 
-Die Role verwendet:
+Die Rolle verwendet:
 
 * Tasks
 * Handlers
@@ -17,12 +17,12 @@ Diese Übung kopiert die Datei `roles-example.php` aus `uebungen/09-roles/roles/
 
 Wenn sich die Datei während des Uploads ändert, wird ein `notify` Handler ausgelöst, welcher am Ende den Webserver neu startet. Dies ist in `uebungen/09-roles/roles/php-anwendung/handlers/main.yml` definiert.
 
-Die Datei `roles-example.php` wird hier nicht aus dem gemeinsamen `templates` Verzeichnis gezogen, sondern die Role sucht sich die Datei selbst. Dazu sucht Ansible in diversen [voreingestellten](https://docs.ansible.com/ansible/latest/playbook_guide/playbook_pathing.html#task-paths) Verzeichnissen nach dieser Datei. Die erste gefundene Datei wird gewählt.
-In diesem Beispiel wird mittels der $template_fullpath Variable im Ergebnis gezeigt welche Datei Ansible ausgewählt hat.
+Die Datei `roles-example.php` wird hier nicht aus dem gemeinsamen `templates` Verzeichnis gezogen, sondern die Rolle sucht sich die Datei selbst. Dazu sucht Ansible in diversen [voreingestellten](https://docs.ansible.com/ansible/latest/playbook_guide/playbook_pathing.html#task-paths) Verzeichnissen nach dieser Datei. Die erste gefundene Datei wird gewählt.
+In diesem Beispiel wird mittels der Variable `$template_fullpath` gezeigt, welche Datei Ansible ausgewählt hat.
 
-In Schritt 2 wird dann der Wert der Variable `application_name` nicht mehr in den Defaults sondern in den Variablen der Role gesetzt. Dies überschreibt den Default Wert.
+In Schritt 2 wird dann der Wert der Variable `application_name` nicht mehr in den Defaults, sondern in den Variablen der Rolle gesetzt. Dies überschreibt den Standadwert.
 
-Testweise könnt ihr auch versuchen einen anderen Namen auf der Kommandozeile (siehe Übung 07) zu setzen.
+Testweise könnt ihr auch versuchen, einen anderen Namen auf der Kommandozeile (siehe Übung 07) zu setzen.
 
 ## Vorbereitung
 
