@@ -32,7 +32,7 @@ ansible [core 2.13.8]
 
 ## virtuelle Maschinen
 
-Für die Dauer des Workshops werden wir euch zwei virtuelle Maschinen bereitstellen. Die Zugangsdaten erhaltet ihr im Laufe des Workshops.
+Für die Dauer des Workshops werden wir euch pro Person zwei virtuelle Maschinen bereitstellen. Die Zugangsdaten erhaltet ihr im Laufe des Workshops.
 
 Dies stellt sicher, dass jeder mit der gleichen Umgebung arbeitet. Niemand muss erst irgendeinen Hypervisor lokal installieren und virtuelle Maschinen hochfahren.
 
