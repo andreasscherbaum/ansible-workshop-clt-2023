@@ -323,6 +323,66 @@ all:
   Damit werden die Inventorys dynamisch aufgebaut und mit Ansible benutzt.
 \end{frame}
 
+\subsection{Variablen}
+
+\begin{frame}
+  \frametitle{Variablen}
+  Zwischen den Einzelsystemen kann es Unterschiede geben. Ansible nutzt hier
+  \emph{Variablen}, um diese Unterschiede zu verwalten.\pause{}
+
+  Diese Variablen können
+  \begin{itemize}
+  \item auf der Kommandozeile übergeben,
+  \item in einer Datei (Playbook, Inventory etc.) gespeichert oder
+  \item als Rückgabewert ausgewertet werden.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Einfache Variablen}
+  Ein Variablenname kann Buchstaben, Zahlen und Unterstriche enthalten und kann
+  mittels YAML folgendermaßen festgelegt werden: \texttt{http\_port: 80}\pause{}
+
+  Unter anderem im Playbook kann der Zugriff erfolgen:\\
+  \texttt{port: '\{\{ http\_port \}\}' }
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Inventoryvariablen}
+  Die Variablen können auch für Gruppen innerhalb von Repositorys verwendet werden.
+  \begin{exampleblock}{hosts}
+    \texttt{[webservers]}\\
+    \texttt{192.168.17.189}\\
+    \texttt{clt.20.example.org}\\
+    \texttt{[webservers:vars]}\\
+    \texttt{http\_port=8080}\\
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Übung 4}
+  In der Übung 4 erweitert ihr das Inventory um einen Eintrag und legt eine Variable
+  namens \texttt{year} an. Diese wird für die PHP-Datei genutzt.
+\end{frame}
+
+\subsection{Gruppenvariablen}
+
+\begin{frame}
+  \frametitle{Gruppenvariablen}
+  Innerhalb des Playbooks kann es ein Verzeichnis namens \texttt{group\_vars}
+  geben. Dort werden in Dateien Variablen für eine Gruppe von Hosts in
+  YAML"=Syntax  hinterlegt. 
+\end{frame}
+
+\begin{frame}
+  \frametitle{Übung 5}
+  In der Übung 5 legen wir das richtige Verzeichnis an und speichern dort eine
+  Datei namens \texttt{webservers.yml}. In der Datei ist u.\,a. wieder die
+  Variable \texttt{year} festgelegt.
+\end{frame}
+
+
+
 \subsection{Hostvariablen}
 
 \begin{frame}[fragile]
@@ -337,20 +397,54 @@ all:
   \end{exampleblock}
 \end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{Gruppenvariablen}
-  Die Variablen können auch für Gruppen verwendet werden.
-  \begin{exampleblock}{hosts}
-    \texttt{[webservers]}\\
-    \texttt{192.168.17.189}\\
-    \texttt{clt.20.example.org}\\
-    \texttt{[webservers:vars]}\\
-    \texttt{ansible\_user=foo}\\
-    \texttt{proxy=bar:3128}
-  \end{exampleblock}
+\begin{frame}
+  \frametitle{Übung 6}
+  In der Übung 6 erweitern wir das Inventory um die Variable \texttt{year}.
 \end{frame}
 
+\subsection{Extravariablen}
 
+\begin{frame}
+  \frametitle{Extravariablen}
+  Schließlich könnt ihr auch auf der Kommandozeile Variablen übergeben:
+  \texttt{ansible-playbook -e "foo=bar"} oder \texttt{ansible-playbook
+    -{}-extra-vars "foo=bar"}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Übung 7}
+  In der Übung 7 übergeben wir die Variable \texttt{year} über die Kommandozeile.
+\end{frame}
+
+\subsection{Struktur des Inventorys}
+
+\begin{frame}
+  \frametitle{Gruppierung}
+  Ansible erlaubt es, das Inventory zu strukturieren. Sinnvoll ist es, sich
+  Gedanken um
+  \begin{description}
+  \item[Was] Anwendungen, Microservices etc.
+  \item[Wo] Raum, Gebäude, Rechenzentrum etc.
+  \item[Wann] Test, Staging, Produktion etc.
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Gruppierung}
+  Im Inventory könnt ihr Gruppen anlegen und diese dann über Metagruppen
+  zusammenfassen. So könntet ihr die Gruppen \texttt{dbservers} und
+  \texttt{webservers} haben. Diese könnten dann beispielsweise in die Metagruppe
+  \texttt{rechenzentrum} zusammengefasst werden:\\
+  \texttt{[rechenzentrum:children]}\\
+  \texttt{webservers}\\
+  \texttt{dbservers}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Übung 8}
+  In der Übung 8 praktizieren wir das mal, in dem wir eine neue Gruppe namens
+  \texttt{workshop} anlegen und dort unsere Server mit reinpacken.
+\end{frame}
 
 
 \section{Rollen}
