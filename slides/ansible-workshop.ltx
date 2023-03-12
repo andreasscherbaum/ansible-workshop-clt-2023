@@ -494,7 +494,7 @@ all:
   \frametitle{Rollen}
   \framesubtitle{Inhalt der Verzeichnisse}
   \begin{columns}
-    \begin{column}{.5\textwidth}
+    \begin{column}{.6\textwidth}
       \begin{description}
       \item[tasks] enthalten die Liste an Tasks, die durch die Rolle ausgeführt
         wird
@@ -506,7 +506,7 @@ all:
       \item[meta] Abhängigkeiten der Rolle
       \end{description}
     \end{column}
-    \begin{column}{.5\textwidth}
+    \begin{column}{.4\textwidth}
       \tikzstyle{every node}=[draw=black,thick,anchor=west]
       \tikzstyle{selected}=[draw=green,fill=green!30]
       \begin{tikzpicture}[%
@@ -520,6 +520,49 @@ all:
       \end{tikzpicture}
     \end{column}
   \end{columns}
+\end{frame}
+
+\section{Templates mit Jinja2}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Templates}
+  Neben dem Kopieren einfacher Dateien können wir auch Templates
+  anfertigen. Ansible baut daraus die korrekte Datei und lädt diese ins
+  Zielsystem. Die Basis für die Templates ist Jinja2.
+  \begin{exampleblock}{Aufruf mit Template-Modul}
+\begin{lstlisting}
+- name: Konfiguration
+  template: src=config.j2 dest=/etc/programm/tor.{{item.host}}.conf
+  with_items: {{ ipadressen }}
+\end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Jinja2}
+  Die Template"=Sprache Jinja2 kommt aus dem Dunstkreis von Python und
+  funktioniert mit aktuellen Version (2.6.x, 2.7.x, ab 3.3.x) der Sprache.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Jinja2} 
+ \framesubtitle{Variablen}
+  Im Unterordner \texttt{vars} können Variablen in die Datei \texttt{main.yml}
+  eingebaut werden. Auf diese greift die Template"=Datei zu und fügt die Werte
+  ein.
+  \begin{exampleblock}{}
+\begin{lstlisting}
+ipadressen:
+  - host: Bridge1
+    ip: 192.168.192.23
+    port: 12345
+  - host: Bridge2
+    ip: 192.168.192.42
+    port: 4521
+\end{lstlisting}
+  \end{exampleblock}
 \end{frame}
 
 
