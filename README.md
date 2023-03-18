@@ -65,6 +65,18 @@ Die Übungen [01-ssh](uebungen/01-ssh) und [02-ping](uebungen/02-ping) sind zum 
 Die Übung [03-build](uebungen/03-build) erstellt den Zustand wie zum Abschluss der vorherigen Workshops.
 
 
+## Slides
+
+Die Folien (Slides) für den Workshop befinden sich im Unterverzeichnis [slides](slides/ansible-workshop.pdf).
+
+Die Sourcen für die Slides befinden sich ebenfalls im Unterverzeichnis. Die Folien können mit folgenden Befehlen neu gebaut werden:
+
+```
+cd slides
+pdflatex ansible-workshop.ltx
+```
+
+
 ## Konfiguration
 
 ### AWS Zugangsdaten
